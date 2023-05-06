@@ -5,11 +5,18 @@ const path = require('path');
 const pg = require('pg');
 const { DB_AWS } = process.env;
 
-const sequelize = new Sequelize(DB_AWS , {
+const sequelize = new Sequelize(DB_AWS, {
   dialectModule: pg,
-  logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  logging: false,
+  native: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
 });
+
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
